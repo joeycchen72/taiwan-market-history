@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Parser tests
-        run: node tests/parse.test.mjs
+        run: node tests/parse.test.mjs && node tests/research.test.mjs
       - name: Fetch a polite batch (newest first, resumable)
         env:
           MAX_REQUESTS: ${{ github.event.inputs.max_requests || '150' }}

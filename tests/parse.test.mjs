@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {parseTwse,parseTpex,toCsv,urls,keepEquity} from '../scripts/sources.mjs';
+import {parseTwse,parseTpex,parseTwt49u,toCsv,urls,keepEquity} from '../scripts/sources.mjs';
 import {weekdays} from '../scripts/backfill.mjs';
 const F=['證券代號','證券名稱','成交股數','成交筆數','成交金額','開盤價','最高價','最低價','收盤價','漲跌(+/-)','漲跌價差','最後揭示買價','最後揭示買量','最後揭示賣價','最後揭示賣量','本益比'];
 const row=(c,sign,chg)=>[c,'名稱','1,000','10','100,000','10.00','10.50','9.90',c==='9999'?'--':'10.20',sign,chg,'','','','',''];
@@ -21,4 +21,12 @@ assert.ok(toCsv([['2330','n',1,2,0.5,1.5,10,15,1,0.1,'']]).startsWith('code,name
 assert.ok(urls.twse('2026-10-29').includes('date=20261029'));assert.ok(urls.tpex('2026-10-29').includes('date=2026/10/29'));
 const w=weekdays('2026-10-24','2026-10-30');assert.deepEqual(w,['2026-10-30','2026-10-29','2026-10-28','2026-10-27','2026-10-26']);
 assert.deepEqual(keepEquity([['2330'],['00400A'],['006201'],['00679B'],['020001'],['700123'],['2881A'],['12345']]).map(r=>r[0]),['2330','00400A','006201','00679B']);
-console.log('equity filter, parsers (new/old TWSE format, signs, ex-rights, no-trade, holiday, wrong date, TPEx), csv and date order tests passed');
+// TWT49U ex-rights results (ROC dates) and TPEx next-day reference price
+const W=['資料日期','股票代號','股票名稱','除權息前收盤價','除權息參考價','權值+息值','權/息','漲停價格','跌停價格'];
+let ex=parseTwt49u({stat:'OK',fields:W,data:[['115年09月16日','2330','台積電','2385.00','2378.00','7.00','息','2615','2141']]});assert.deepEqual(ex.rows[0],['2026-09-16','2330',2385,2378,7,'息']);
+ex=parseTwt49u({stat:'OK',tables:[{fields:W,data:[['104年07月20日','0050','台灣50','70.10','69.60','0.50','息','','']]}]});assert.equal(ex.rows[0][0],'2015-07-20');
+assert.equal(parseTwt49u({stat:'很抱歉，沒有符合條件的資料!'}).status,'empty');
+assert.ok(urls.twseExright('2026-02').includes('startDate=20260201&endDate=20260228'));
+const T2=['代號','名稱','收盤','漲跌','開盤','最高','最低','均價','成交股數','成交金額(元)','成交筆數','最後買價','最後買量(張數)','最後賣價','最後賣量(張數)','發行股數','次日參考價','次日漲停價','次日跌停價'];
+const tp=parseTpex({stat:'ok',date:'20261029',tables:[{fields:T2,data:[['6488','環球晶','400.00','-5.50','405','406','399','401','1,000','400,000','9','','','','','1','398.20','438','358.4']]}]},'2026-10-29');assert.equal(tp.rows[0][11],398.2);assert.equal(tp.hasNextRef,true);
+console.log('ex-rights results, next-day reference, equity filter, parsers (new/old TWSE format, signs, ex-rights, no-trade, holiday, wrong date, TPEx), csv and date order tests passed');
