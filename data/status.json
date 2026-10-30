@@ -1,0 +1,18 @@
+{
+ "at": "2026-10-30T04:15:25.175Z",
+ "range": [
+  "2014-01-01",
+  "2026-10-29"
+ ],
+ "requests": 6,
+ "saved": 5,
+ "closed": 0,
+ "errors": [
+  "tpex|2026-10-28 terminated"
+ ],
+ "progress": {
+  "done": 5,
+  "total": 6694,
+  "pct": 0.1
+ }
+}
