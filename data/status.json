@@ -1,29 +1,25 @@
 {
- "at": "2026-10-30T09:32:06.612Z",
+ "at": "2026-10-30T11:21:22.330Z",
  "range": [
   "2014-01-01",
   "2026-10-29"
  ],
  "requests": 150,
- "saved": 132,
- "closed": 6,
+ "saved": 122,
+ "closed": 20,
  "errors": [
-  "tpex|2026-10-22 terminated",
-  "tpex|2026-08-05 The operation was aborted due to timeout",
-  "tpex|2026-07-02 The operation was aborted due to timeout",
-  "tpex|2026-05-28 terminated",
-  "tpex|2026-05-20 terminated",
   "tpex|2026-05-13 terminated",
-  "tpex|2026-04-28 terminated",
-  "tpex|2026-04-24 terminated",
-  "tpex|2026-03-31 terminated",
-  "tpex|2026-03-27 terminated",
-  "tpex|2026-03-17 terminated",
-  "tpex|2026-03-13 terminated"
+  "tpex|2026-02-10 terminated",
+  "tpex|2026-02-04 terminated",
+  "tpex|2026-01-27 terminated",
+  "tpex|2026-01-12 terminated",
+  "tpex|2025-12-23 terminated",
+  "tpex|2025-12-12 terminated",
+  "tpex|2025-12-11 terminated"
  ],
  "progress": {
-  "done": 350,
+  "done": 492,
   "total": 6848,
-  "pct": 5.1
+  "pct": 7.2
  }
 }
