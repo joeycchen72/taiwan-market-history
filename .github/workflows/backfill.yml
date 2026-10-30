@@ -4,7 +4,7 @@ on:
     inputs:
       max_requests:
         description: 'Requests this run (2 per trading day)'
-        default: '400'
+        default: '750'
       start:
         description: 'Earliest date to fetch (YYYY-MM-DD)'
         default: '2014-01-01'
@@ -18,14 +18,14 @@ concurrency:
 jobs:
   backfill:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 58
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       - name: Parser tests
         run: node tests/parse.test.mjs && node tests/research.test.mjs
       - name: Fetch a polite batch (newest first, resumable)
         env:
-          MAX_REQUESTS: ${{ github.event.inputs.max_requests || '400' }}
+          MAX_REQUESTS: ${{ github.event.inputs.max_requests || '750' }}
           START: ${{ github.event.inputs.start || '2014-01-01' }}
           DELAY_MS: '4000'
         run: node scripts/backfill.mjs
