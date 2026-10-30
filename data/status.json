@@ -1,37 +1,37 @@
 {
- "at": "2026-10-30T21:49:04.482Z",
+ "at": "2026-10-30T22:45:16.433Z",
  "range": [
   "2014-01-01",
   "2026-10-30"
  ],
- "requests": 959,
- "saved": 862,
- "closed": 66,
+ "requests": 1002,
+ "saved": 920,
+ "closed": 56,
  "errors": [
-  "tpex|2023-06-16 terminated",
-  "tpex|2023-06-15 terminated",
-  "tpex|2023-05-15 terminated",
-  "tpex|2023-05-11 terminated",
-  "tpex|2023-04-24 terminated",
-  "tpex|2023-04-10 terminated",
-  "tpex|2023-01-09 terminated",
-  "tpex|2022-12-27 terminated",
-  "tpex|2022-12-15 terminated",
-  "tpex|2022-12-02 terminated",
-  "tpex|2022-11-28 terminated",
-  "tpex|2022-11-21 terminated",
-  "tpex|2022-11-10 terminated",
-  "tpex|2022-11-04 terminated",
-  "tpex|2022-11-03 terminated",
-  "tpex|2022-10-24 terminated",
-  "tpex|2022-09-28 terminated",
-  "tpex|2022-08-24 terminated",
-  "tpex|2022-07-28 terminated",
-  "tpex|2022-07-25 terminated"
+  "tpex|2021-11-10 terminated",
+  "tpex|2021-09-27 terminated",
+  "tpex|2021-09-22 terminated",
+  "tpex|2021-09-14 terminated",
+  "tpex|2021-08-26 terminated",
+  "tpex|2021-08-25 terminated",
+  "tpex|2021-07-16 terminated",
+  "tpex|2021-07-13 terminated",
+  "tpex|2021-06-18 terminated",
+  "tpex|2021-04-12 terminated",
+  "tpex|2021-03-31 terminated",
+  "tpex|2021-03-16 terminated",
+  "tpex|2021-01-28 terminated",
+  "tpex|2021-01-14 terminated",
+  "tpex|2020-12-30 terminated",
+  "tpex|2020-11-25 terminated",
+  "tpex|2020-11-19 terminated",
+  "tpex|2020-10-29 terminated",
+  "tpex|2020-09-14 terminated",
+  "tpex|2020-09-11 terminated"
  ],
  "progress": {
-  "done": 3234,
+  "done": 4210,
   "total": 6850,
-  "pct": 47.2
+  "pct": 61.5
  }
 }
