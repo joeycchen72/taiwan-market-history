@@ -1,9 +1,9 @@
 // Resumable, polite backfill of official daily quotes. Newest dates first. Safe to stop at any time.
-// env: MAX_REQUESTS (default 400), DELAY_MS (default 4000), BUDGET_MS (default 38 min; stop early so progress is always saved), START (default 2014-01-01), END (default: yesterday, Taipei)
+// env: MAX_REQUESTS per market (default 750), DELAY_MS per host (default 4000), BUDGET_MS (default 50 min; stop early so progress is always saved), EX_MONTHS (default 60), START (default 2014-01-01), END (default: yesterday, Taipei)
 import fs from 'node:fs';import path from 'node:path';import zlib from 'node:zlib';import {fileURLToPath} from 'node:url';
 import {parseTwse,parseTpex,parseTwt49u,urls,toCsv,ymd,keepEquity,EQUITY,COLUMNS,EXRIGHT_COLUMNS} from './sources.mjs';
 const root=path.join(path.dirname(fileURLToPath(import.meta.url)),'..'),data=path.join(root,'data'),progressFile=path.join(data,'progress.json');
-const T0=Date.now(),BUDGET=Number(process.env.BUDGET_MS||38*60000),overBudget=()=>Date.now()-T0>BUDGET,MAX=Number(process.env.MAX_REQUESTS||400),DELAY=Number(process.env.DELAY_MS||4000),START=process.env.START||'2014-01-01';
+const T0=Date.now(),EX_MONTHS=Number(process.env.EX_MONTHS||60),BUDGET=Number(process.env.BUDGET_MS||50*60000),overBudget=()=>Date.now()-T0>BUDGET,MAX=Number(process.env.MAX_REQUESTS||750),DELAY=Number(process.env.DELAY_MS||4000),START=process.env.START||'2014-01-01';
 const taipeiDay=t=>new Date(t+28800000).toISOString().slice(0,10);
 const END=process.env.END||taipeiDay(Date.now()-86400000);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -20,18 +20,22 @@ async function main(){
  const parsers={twse:parseTwse,tpex:parseTpex};let used=0,saved=0,closed=0,errors=[],consecutive=0;
  // TWSE ex-rights results, one request per month (newest first)
  const months=[...new Set(weekdays(START,END).map(d=>d.slice(0,7)))];
- let exUsed=0;for(const mo of months){if(used>=MAX||exUsed>=12)break;if(progress.markets.twseExright[mo])continue;exUsed++;used++;
+ let exUsed=0;for(const mo of months){if(exUsed>=EX_MONTHS)break;if(progress.markets.twseExright[mo])continue;exUsed++;used++;
   try{const r=parseTwt49u(await get(urls.twseExright(mo)));const dir=path.join(data,'twse-exright',mo.slice(0,4));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,mo+'.csv.gz'),zlib.gzipSync(toCsv(r.rows,EXRIGHT_COLUMNS),{level:9}));progress.markets.twseExright[mo]=r.status+':'+r.rows.length;delete progress.failures['twseExright|'+mo];saved++;}
   catch(e){const k='twseExright|'+mo;progress.failures[k]=(progress.failures[k]||0)+1;errors.push(k+' '+e.message);if(progress.failures[k]>=3)progress.markets.twseExright[mo]='failed:'+e.message.slice(0,80);}
   await sleep(DELAY);}
- outer:for(const date of weekdays(START,END)){for(const m of ['twse','tpex']){
-  if(progress.markets[m][date])continue;if(used>=MAX)break outer;if(overBudget()){errors.push('stopping: time budget reached; progress saved');break outer;}used++;
+ // TWSE and TPEx are different hosts: fetch them side by side, each keeping its own DELAY spacing,
+ // its own request cap and its own 5-consecutive-failure stop.
+ const dates=weekdays(START,END);
+ async function worker(m){let n=0,consecutive=0;for(const date of dates){
+  if(progress.markets[m][date])continue;if(n>=MAX)return;if(overBudget()){errors.push(m+' stopping: time budget reached; progress saved');return;}n++;used++;
   try{const j=await get(urls[m](date)),r=parsers[m](j,date);
    if(r.status==='ok'){r.rows=keepEquity(r.rows);if(r.rows.length<50)throw Error('too few rows ('+r.rows.length+')');const dir=path.join(data,m,date.slice(0,4));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,ymd(date)+'.csv.gz'),zlib.gzipSync(toCsv(r.rows),{level:9}));progress.markets[m][date]='ok:'+r.rows.length;saved++;}
    else{progress.markets[m][date]='closed';closed++;}
    delete progress.failures[m+'|'+date];consecutive=0;
-  }catch(e){const k=m+'|'+date;progress.failures[k]=(progress.failures[k]||0)+1;errors.push(k+' '+e.message);if(progress.failures[k]>=3)progress.markets[m][date]='failed:'+e.message.slice(0,80);consecutive++;if(consecutive>=5){errors.push('stopping: 5 consecutive failures (source may be limiting requests)');break outer;}}
+  }catch(e){const k=m+'|'+date;progress.failures[k]=(progress.failures[k]||0)+1;errors.push(k+' '+e.message);if(progress.failures[k]>=3)progress.markets[m][date]='failed:'+e.message.slice(0,80);consecutive++;if(consecutive>=5){errors.push(m+' stopping: 5 consecutive failures (source may be limiting requests)');return;}}
   await sleep(DELAY);}}
+ await Promise.all([worker('twse'),worker('tpex')]);
  fs.writeFileSync(progressFile,JSON.stringify(progress,null,1)+'\n');
  const all=weekdays(START,END).length*2+months.length,done=Object.values(progress.markets).reduce((n,m)=>n+Object.keys(m).length,0);
  const status={at:new Date().toISOString(),range:[START,END],requests:used,saved,closed,errors:errors.slice(0,20),progress:{done,total:all,pct:+(done/all*100).toFixed(1)}};
