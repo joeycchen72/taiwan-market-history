@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {parseTwse,parseTpex,toCsv,urls} from '../scripts/sources.mjs';
+import {parseTwse,parseTpex,toCsv,urls,keepEquity} from '../scripts/sources.mjs';
 import {weekdays} from '../scripts/backfill.mjs';
 const F=['證券代號','證券名稱','成交股數','成交筆數','成交金額','開盤價','最高價','最低價','收盤價','漲跌(+/-)','漲跌價差','最後揭示買價','最後揭示買量','最後揭示賣價','最後揭示賣量','本益比'];
 const row=(c,sign,chg)=>[c,'名稱','1,000','10','100,000','10.00','10.50','9.90',c==='9999'?'--':'10.20',sign,chg,'','','','',''];
@@ -20,4 +20,5 @@ assert.equal(parseTpex({stat:'ok',date:'20261010',tables:[{fields:T,data:[]}]},'
 assert.ok(toCsv([['2330','n',1,2,0.5,1.5,10,15,1,0.1,'']]).startsWith('code,name,open'));
 assert.ok(urls.twse('2026-10-29').includes('date=20261029'));assert.ok(urls.tpex('2026-10-29').includes('date=2026/10/29'));
 const w=weekdays('2026-10-24','2026-10-30');assert.deepEqual(w,['2026-10-30','2026-10-29','2026-10-28','2026-10-27','2026-10-26']);
-console.log('parsers (new/old TWSE format, signs, ex-rights, no-trade, holiday, wrong date, TPEx), csv and date order tests passed');
+assert.deepEqual(keepEquity([['2330'],['00400A'],['006201'],['00679B'],['020001'],['700123'],['2881A'],['12345']]).map(r=>r[0]),['2330','00400A','006201','00679B']);
+console.log('equity filter, parsers (new/old TWSE format, signs, ex-rights, no-trade, holiday, wrong date, TPEx), csv and date order tests passed');

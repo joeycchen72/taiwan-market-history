@@ -1,7 +1,7 @@
 // Resumable, polite backfill of official daily quotes. Newest dates first. Safe to stop at any time.
 // env: MAX_REQUESTS (default 150), DELAY_MS (default 4000), START (default 2014-01-01), END (default: yesterday, Taipei)
 import fs from 'node:fs';import path from 'node:path';import zlib from 'node:zlib';import {fileURLToPath} from 'node:url';
-import {parseTwse,parseTpex,urls,toCsv,ymd} from './sources.mjs';
+import {parseTwse,parseTpex,urls,toCsv,ymd,keepEquity,EQUITY,COLUMNS} from './sources.mjs';
 const root=path.join(path.dirname(fileURLToPath(import.meta.url)),'..'),data=path.join(root,'data'),progressFile=path.join(data,'progress.json');
 const MAX=Number(process.env.MAX_REQUESTS||150),DELAY=Number(process.env.DELAY_MS||4000),START=process.env.START||'2014-01-01';
 const taipeiDay=t=>new Date(t+28800000).toISOString().slice(0,10);
@@ -12,11 +12,12 @@ async function get(url){const r=await fetch(url,{signal:AbortSignal.timeout(3000
 async function main(){
  fs.mkdirSync(data,{recursive:true});
  const progress=fs.existsSync(progressFile)?JSON.parse(fs.readFileSync(progressFile,'utf8')):{version:1,start:START,markets:{twse:{},tpex:{}},failures:{}};
+ for(const m of ['twse','tpex'])for(const y of fs.existsSync(path.join(data,m))?fs.readdirSync(path.join(data,m)):[])for(const f of fs.readdirSync(path.join(data,m,y))){const p=path.join(data,m,y,f),lines=zlib.gunzipSync(fs.readFileSync(p)).toString().split('\n').filter(Boolean),body=lines.slice(1).filter(l=>EQUITY.test(l.split(',')[0]));if(body.length!==lines.length-1)fs.writeFileSync(p,zlib.gzipSync(COLUMNS.join(',')+'\n'+body.join('\n')+'\n',{level:9}));}
  const parsers={twse:parseTwse,tpex:parseTpex};let used=0,saved=0,closed=0,errors=[],consecutive=0;
  outer:for(const date of weekdays(START,END)){for(const m of ['twse','tpex']){
   if(progress.markets[m][date])continue;if(used>=MAX)break outer;used++;
   try{const j=await get(urls[m](date)),r=parsers[m](j,date);
-   if(r.status==='ok'){if(r.rows.length<50)throw Error('too few rows ('+r.rows.length+')');const dir=path.join(data,m,date.slice(0,4));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,ymd(date)+'.csv.gz'),zlib.gzipSync(toCsv(r.rows),{level:9}));progress.markets[m][date]='ok:'+r.rows.length;saved++;}
+   if(r.status==='ok'){r.rows=keepEquity(r.rows);if(r.rows.length<50)throw Error('too few rows ('+r.rows.length+')');const dir=path.join(data,m,date.slice(0,4));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,ymd(date)+'.csv.gz'),zlib.gzipSync(toCsv(r.rows),{level:9}));progress.markets[m][date]='ok:'+r.rows.length;saved++;}
    else{progress.markets[m][date]='closed';closed++;}
    delete progress.failures[m+'|'+date];consecutive=0;
   }catch(e){const k=m+'|'+date;progress.failures[k]=(progress.failures[k]||0)+1;errors.push(k+' '+e.message);if(progress.failures[k]>=3)progress.markets[m][date]='failed:'+e.message.slice(0,80);consecutive++;if(consecutive>=5){errors.push('stopping: 5 consecutive failures (source may be limiting requests)');break outer;}}
