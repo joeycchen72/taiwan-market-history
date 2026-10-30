@@ -1,9 +1,9 @@
 // Resumable, polite backfill of official daily quotes. Newest dates first. Safe to stop at any time.
-// env: MAX_REQUESTS (default 150), DELAY_MS (default 4000), START (default 2014-01-01), END (default: yesterday, Taipei)
+// env: MAX_REQUESTS (default 400), DELAY_MS (default 4000), BUDGET_MS (default 38 min; stop early so progress is always saved), START (default 2014-01-01), END (default: yesterday, Taipei)
 import fs from 'node:fs';import path from 'node:path';import zlib from 'node:zlib';import {fileURLToPath} from 'node:url';
 import {parseTwse,parseTpex,parseTwt49u,urls,toCsv,ymd,keepEquity,EQUITY,COLUMNS,EXRIGHT_COLUMNS} from './sources.mjs';
 const root=path.join(path.dirname(fileURLToPath(import.meta.url)),'..'),data=path.join(root,'data'),progressFile=path.join(data,'progress.json');
-const MAX=Number(process.env.MAX_REQUESTS||150),DELAY=Number(process.env.DELAY_MS||4000),START=process.env.START||'2014-01-01';
+const T0=Date.now(),BUDGET=Number(process.env.BUDGET_MS||38*60000),overBudget=()=>Date.now()-T0>BUDGET,MAX=Number(process.env.MAX_REQUESTS||400),DELAY=Number(process.env.DELAY_MS||4000),START=process.env.START||'2014-01-01';
 const taipeiDay=t=>new Date(t+28800000).toISOString().slice(0,10);
 const END=process.env.END||taipeiDay(Date.now()-86400000);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
@@ -25,7 +25,7 @@ async function main(){
   catch(e){const k='twseExright|'+mo;progress.failures[k]=(progress.failures[k]||0)+1;errors.push(k+' '+e.message);if(progress.failures[k]>=3)progress.markets.twseExright[mo]='failed:'+e.message.slice(0,80);}
   await sleep(DELAY);}
  outer:for(const date of weekdays(START,END)){for(const m of ['twse','tpex']){
-  if(progress.markets[m][date])continue;if(used>=MAX)break outer;used++;
+  if(progress.markets[m][date])continue;if(used>=MAX)break outer;if(overBudget()){errors.push('stopping: time budget reached; progress saved');break outer;}used++;
   try{const j=await get(urls[m](date)),r=parsers[m](j,date);
    if(r.status==='ok'){r.rows=keepEquity(r.rows);if(r.rows.length<50)throw Error('too few rows ('+r.rows.length+')');const dir=path.join(data,m,date.slice(0,4));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,ymd(date)+'.csv.gz'),zlib.gzipSync(toCsv(r.rows),{level:9}));progress.markets[m][date]='ok:'+r.rows.length;saved++;}
    else{progress.markets[m][date]='closed';closed++;}
