@@ -36,4 +36,6 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add data
           git diff --cached --quiet || git commit -m "Backfill batch ${GITHUB_RUN_ID}"
-          git push origin HEAD:main
+          # main may have moved (e.g. a merged PR) while this batch ran: replay the data commit on top, retry once
+          git pull --rebase origin main || { git rebase --abort; exit 1; }
+          git push origin HEAD:main || { sleep 10; git pull --rebase origin main && git push origin HEAD:main; }
