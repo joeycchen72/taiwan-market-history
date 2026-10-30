@@ -6,6 +6,9 @@ const num=v=>{const s=String(v??'').replace(/,/g,'').trim();if(!s||s==='--'||s==
 const strip=v=>String(v??'').replace(/<[^>]*>/g,'').trim();
 const idx=(fields,...names)=>{for(const n of names){const i=fields.findIndex(f=>strip(f).replace(/\s/g,'').startsWith(n));if(i>=0)return i;}return -1;};
 export const ymd=d=>d.replace(/-/g,'');
+// Keep stocks (4 digits) and ETFs (00 + 2-4 digits, optional letter). Drops warrants, bonds, preferred shares and ETNs.
+export const EQUITY=/^(\d{4}|00\d{2,4}[A-Z]?)$/;
+export const keepEquity=rows=>rows.filter(r=>EQUITY.test(r[0]));
 // TWSE MI_INDEX json; returns {status:'ok'|'closed', rows}
 export function parseTwse(j,date){
  const stat=String(j?.stat||'');if(!/^ok$/i.test(stat)){if(/沒有符合|查詢日期|無資料|no data/i.test(stat+JSON.stringify(j?.notes||'')))return {status:'closed',rows:[]};throw Error('TWSE stat: '+stat.slice(0,60));}
