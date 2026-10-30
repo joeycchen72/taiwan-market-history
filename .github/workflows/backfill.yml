@@ -1,0 +1,39 @@
+name: Backfill official daily quotes
+on:
+  workflow_dispatch:
+    inputs:
+      max_requests:
+        description: 'Requests this run (2 per trading day)'
+        default: '150'
+      start:
+        description: 'Earliest date to fetch (YYYY-MM-DD)'
+        default: '2014-01-01'
+  schedule:
+    - cron: '23 */2 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: backfill
+  cancel-in-progress: false
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Parser tests
+        run: node tests/parse.test.mjs
+      - name: Fetch a polite batch (newest first, resumable)
+        env:
+          MAX_REQUESTS: ${{ github.event.inputs.max_requests || '150' }}
+          START: ${{ github.event.inputs.start || '2014-01-01' }}
+          DELAY_MS: '4000'
+        run: node scripts/backfill.mjs
+      - name: Commit data and progress
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data
+          git diff --cached --quiet || git commit -m "Backfill batch ${GITHUB_RUN_ID}"
+          git push origin HEAD:main
