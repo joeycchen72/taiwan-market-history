@@ -1,37 +1,32 @@
 {
- "at": "2026-10-30T13:40:37.370Z",
+ "at": "2026-10-30T16:25:22.039Z",
  "range": [
   "2014-01-01",
-  "2026-10-29"
+  "2026-10-30"
  ],
  "requests": 150,
- "saved": 122,
- "closed": 8,
+ "saved": 135,
+ "closed": 0,
  "errors": [
-  "tpex|2026-05-13 terminated",
-  "tpex|2026-02-10 terminated",
-  "tpex|2025-12-03 terminated",
-  "tpex|2025-12-02 terminated",
-  "tpex|2025-11-27 terminated",
-  "tpex|2025-11-26 terminated",
-  "tpex|2025-11-21 terminated",
-  "tpex|2025-11-20 terminated",
-  "tpex|2025-11-19 terminated",
-  "tpex|2025-11-13 The operation was aborted due to timeout",
-  "tpex|2025-11-06 terminated",
-  "tpex|2025-10-31 The operation was aborted due to timeout",
-  "tpex|2025-10-15 The operation was aborted due to timeout",
-  "tpex|2025-10-07 terminated",
-  "tpex|2025-10-01 terminated",
+  "tpex|2025-11-13 terminated",
   "tpex|2025-09-30 terminated",
-  "tpex|2025-09-26 terminated",
-  "tpex|2025-09-25 terminated",
-  "tpex|2025-09-24 terminated",
-  "tpex|2025-09-11 terminated"
+  "tpex|2025-09-08 terminated",
+  "tpex|2025-09-02 terminated",
+  "tpex|2025-08-20 terminated",
+  "tpex|2025-08-13 The operation was aborted due to timeout",
+  "tpex|2025-08-06 terminated",
+  "tpex|2025-07-24 The operation was aborted due to timeout",
+  "tpex|2025-07-23 terminated",
+  "tpex|2025-07-14 terminated",
+  "tpex|2025-07-11 terminated",
+  "tpex|2025-07-08 terminated",
+  "tpex|2025-07-02 terminated",
+  "tpex|2025-06-26 terminated",
+  "tpex|2025-06-20 terminated"
  ],
  "progress": {
-  "done": 623,
-  "total": 6848,
-  "pct": 9.1
+  "done": 758,
+  "total": 6850,
+  "pct": 11.1
  }
 }
