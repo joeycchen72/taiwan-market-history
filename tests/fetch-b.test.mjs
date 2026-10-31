@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {parseTwseQfii,parseTpexQfii,parseTwseMargin,parseTpexMargin,parseTwsePe,parseTpexPe,parseRevenue,formationDates} from '../scripts/fetch-b.mjs';
+assert.deepEqual(parseTwseQfii({stat:'OK',data:[["1101","台泥","TW0001101004","3,692,175,869","2,000,000","1,192,175,869",54.2,32.28,"100.00","100.00","",0]]}),[['1101',3692175869,1192175869,32.28]]);
+assert.deepEqual(parseTpexQfii({tables:[{data:[["1","8406","F-金可","92,623,472","8,436,454","84,187,018","9.11%","90.89%","100%",""]]}]}),[['8406',92623472,84187018,90.89]]);
+assert.deepEqual(parseTwseMargin({stat:'OK',tables:[{title:'信用交易統計',data:[]},{title:'104年03月02日 融資融券彙總 (全部)',data:[["0050","元大台灣50","132","43","0","2,012","2,101","264,375","73","11","0","1,581","1,519","264,375","11"," "]]}]}),[['0050',2101,1519]]);
+assert.deepEqual(parseTpexMargin({tables:[{data:[["1259","安心","417","14","5","0","426","1","5.26","8,097","0","0","0","0","0","0","0.0","8,097","1",""]]}]}),[['1259',426,0]]);
+assert.deepEqual(parseTwsePe({stat:'OK',data:[["1101","台泥","14.76","5.39","1.41"],["1217","愛之味","-","0.00","0.73"]]}),[['1101',14.76,5.39,1.41],['1217','',0,0.73]]);
+assert.deepEqual(parseTpexPe({tables:[{data:[["1256","F-鮮活 ","22.77","6.50000000",103,"3.91","7.45"],["1333","恩得利 ","N/A","0.00000000",103,"0.00","1.80"]]}]}),[['1256',22.77,3.91,7.45],['1333','',0,1.8]]);
+const html="<th>產業別：水泥工業</th><tr><td align=center>1101</td><td align=left>台泥</td><td nowrap> 4,823,318</td><td nowrap> 8,921,719</td><td nowrap> 6,087,866</td><td nowrap> -45.93</td><Td nowrap> -20.77</td><td nowrap> 13,745,037</td><td nowrap> 15,889,557</td><td nowrap> -13.49</td><td align=center>-</td></tr><th>產業別：食品工業</th><tr><td>1201</td><td>味全</td><td>1,000</td><td>900</td><td>800</td><td>11.1</td><td>25</td><td>2,000</td><td>1,600</td><td>25</td><td>-</td></tr><tr><td>合計</td><td></td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>";
+assert.deepEqual(parseRevenue(html),[['1101','水泥工業',4823318,8921719,6087866,13745037,15889557],['1201','食品工業',1000,900,800,2000,1600]]);
+const prog={markets:{twse:{'2026-09-01':'ok:1','2026-09-10':'ok:1','2026-09-11':'closed','2026-09-14':'ok:1','2026-09-15':'ok:1','2026-10-12':'ok:1','2026-10-13':'ok:1'}}};
+assert.deepEqual(formationDates(prog,'2026-01'),[{month:'2026-09',date:'2026-09-14'},{month:'2026-10',date:'2026-10-12'}]);
+console.log('fetch-b parsers (TWSE/TPEx foreign holdings, margin, P/E; MOPS revenue with industry) and formation dates (first trading day on/after the 11th) passed');

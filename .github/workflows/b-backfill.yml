@@ -1,0 +1,27 @@
+name: b-backfill
+on:
+  schedule:
+    - cron: '43 * * * *'
+  workflow_dispatch:
+permissions: { contents: write }
+concurrency: { group: b-backfill, cancel-in-progress: false }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - name: Parser tests
+        run: node tests/fetch-b.test.mjs
+      - name: Fetch B-class data on formation dates (resumable)
+        run: node scripts/fetch-b.mjs
+      - name: Commit
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/b
+          git diff --cached --quiet && exit 0
+          git commit -m "B data batch ${GITHUB_RUN_ID}"
+          git pull --rebase origin main || { git rebase --abort; exit 1; }
+          git push origin HEAD:main || { sleep 10; git pull --rebase origin main && git push origin HEAD:main; }
