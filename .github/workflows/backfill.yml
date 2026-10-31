@@ -29,12 +29,15 @@ jobs:
           START: ${{ github.event.inputs.start || '2014-01-01' }}
           DELAY_MS: '4000'
         run: node scripts/backfill.mjs
+      - name: Forward H5 list (seal on a month's first trading day before the next open; evaluate matured lists)
+        continue-on-error: true
+        run: node research/forward-h5.mjs
       - name: Commit data and progress
         if: always()
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add data
+          git add data research/forward
           git diff --cached --quiet || git commit -m "Backfill batch ${GITHUB_RUN_ID}"
           # main may have moved (e.g. a merged PR) while this batch ran: replay the data commit on top, retry once
           git pull --rebase origin main || { git rebase --abort; exit 1; }
