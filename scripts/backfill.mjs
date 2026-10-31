@@ -17,6 +17,8 @@ async function main(){
  // (needed for ex-dividend days, which the exchanges mark as not-compared) are fetched again once.
  if((progress.version||1)<2){for(const [d,st] of Object.entries(progress.markets.tpex)){if(!String(st).startsWith('ok'))continue;const p=path.join(data,'tpex',d.slice(0,4),ymd(d)+'.csv.gz');const head=fs.existsSync(p)?zlib.gunzipSync(fs.readFileSync(p)).toString().split('\n')[0]:'';if(!head.includes('next_ref')){if(fs.existsSync(p))fs.rmSync(p);delete progress.markets.tpex[d];}}progress.version=2;progress.migrations=[...(progress.migrations||[]),{at:new Date().toISOString(),note:'TPEx files without next_ref removed for one re-fetch'}];}
  progress.markets.twseExright=progress.markets.twseExright||{};
+ // Ex-rights results for the current and previous month keep growing during the month: refetch them every run.
+ {const ym=d=>d.slice(0,7),now=new Date(Date.now()+28800000),cur=ym(now.toISOString()),prev=ym(new Date(Date.UTC(now.getUTCFullYear(),now.getUTCMonth()-1,1)).toISOString());for(const mo of [cur,prev])delete progress.markets.twseExright[mo];}
  // Transient failures (403/429/5xx, connection cut, timeout) are rate limiting or network trouble, not missing data: retry them.
  for(const m of ['twse','tpex'])for(const [d,v] of Object.entries(progress.markets[m]))if(String(v).startsWith('failed:')&&TRANSIENT.test(v)){delete progress.markets[m][d];delete progress.failures[m+'|'+d];}
  const parsers={twse:parseTwse,tpex:parseTpex};let used=0,saved=0,closed=0,errors=[],consecutive=0;
