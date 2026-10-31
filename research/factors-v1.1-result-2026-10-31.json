@@ -1,0 +1,204 @@
+{
+ "spec": "factors-v1.1",
+ "basedOn": "factors-v1",
+ "minHistory": 0,
+ "dataRange": [
+  "2014-01-02",
+  "2026-10-30"
+ ],
+ "stats": {
+  "excludedUnknown": 4658,
+  "noNextOpen": 911,
+  "delistExits": 80,
+  "droppedFromPicks": 228
+ },
+ "results": {
+  "S0": {
+   "name": "網站原訊號",
+   "freq": "daily",
+   "hold": 20,
+   "design": {
+    "formations": 1079,
+    "from": "2015-01-12",
+    "to": "2019-12-31",
+    "meanExcessPct": 0.714,
+    "avgPicks": 5.4
+   },
+   "validation": {
+    "formations": 629,
+    "from": "2020-01-02",
+    "to": "2022-12-30",
+    "meanExcessPct": -0.405,
+    "avgPicks": 5.7
+   },
+   "test": {
+    "formations": 837,
+    "from": "2023-01-03",
+    "to": "2026-09-29",
+    "meanExcessPct": 0.116,
+    "avgPicks": 6
+   },
+   "testIntervalPct": [
+    -0.915,
+    0.911
+   ],
+   "verdict": "未通過"
+  },
+  "H1": {
+   "name": "短期反轉",
+   "freq": "daily",
+   "hold": 5,
+   "design": {
+    "formations": 1210,
+    "from": "2015-01-12",
+    "to": "2019-12-31",
+    "meanExcessPct": 0.121,
+    "avgPicks": 53.1
+   },
+   "validation": {
+    "formations": 735,
+    "from": "2020-01-02",
+    "to": "2022-12-30",
+    "meanExcessPct": 0.028,
+    "avgPicks": 71.5
+   },
+   "test": {
+    "formations": 917,
+    "from": "2023-01-03",
+    "to": "2026-10-21",
+    "meanExcessPct": 0.033,
+    "avgPicks": 86
+   },
+   "testIntervalPct": [
+    -0.141,
+    0.236
+   ],
+   "verdict": "未通過"
+  },
+  "H2": {
+   "name": "低波動",
+   "freq": "monthly",
+   "hold": 21,
+   "design": {
+    "formations": 59,
+    "from": "2015-02-02",
+    "to": "2019-12-02",
+    "meanExcessPct": 0.128,
+    "avgPicks": 52.4
+   },
+   "validation": {
+    "formations": 36,
+    "from": "2020-01-02",
+    "to": "2022-12-01",
+    "meanExcessPct": 0.285,
+    "avgPicks": 70.9
+   },
+   "test": {
+    "formations": 45,
+    "from": "2023-01-03",
+    "to": "2026-09-01",
+    "meanExcessPct": -0.523,
+    "avgPicks": 84.9
+   },
+   "testIntervalPct": [
+    -2.231,
+    1.275
+   ],
+   "verdict": "未通過"
+  },
+  "H3": {
+   "name": "接近60日高點",
+   "freq": "monthly",
+   "hold": 21,
+   "design": {
+    "formations": 59,
+    "from": "2015-02-02",
+    "to": "2019-12-02",
+    "meanExcessPct": 0.877,
+    "avgPicks": 52.8
+   },
+   "validation": {
+    "formations": 36,
+    "from": "2020-01-02",
+    "to": "2022-12-01",
+    "meanExcessPct": 0.537,
+    "avgPicks": 71.1
+   },
+   "test": {
+    "formations": 45,
+    "from": "2023-01-03",
+    "to": "2026-09-01",
+    "meanExcessPct": 0.588,
+    "avgPicks": 85.5
+   },
+   "testIntervalPct": [
+    -0.252,
+    1.663
+   ],
+   "verdict": "未通過"
+  },
+  "H4": {
+   "name": "12–1個月動能",
+   "freq": "monthly",
+   "hold": 21,
+   "design": {
+    "formations": 59,
+    "from": "2015-02-02",
+    "to": "2019-12-02",
+    "meanExcessPct": -0.133,
+    "avgPicks": 50.9
+   },
+   "validation": {
+    "formations": 36,
+    "from": "2020-01-02",
+    "to": "2022-12-01",
+    "meanExcessPct": 0.099,
+    "avgPicks": 69.7
+   },
+   "test": {
+    "formations": 45,
+    "from": "2023-01-03",
+    "to": "2026-09-01",
+    "meanExcessPct": 0.393,
+    "avgPicks": 83.4
+   },
+   "testIntervalPct": [
+    -1.869,
+    2.053
+   ],
+   "verdict": "未通過"
+  },
+  "H5": {
+   "name": "接近52週高點",
+   "freq": "monthly",
+   "hold": 21,
+   "design": {
+    "formations": 59,
+    "from": "2015-02-02",
+    "to": "2019-12-02",
+    "meanExcessPct": 1.343,
+    "avgPicks": 52.9
+   },
+   "validation": {
+    "formations": 36,
+    "from": "2020-01-02",
+    "to": "2022-12-01",
+    "meanExcessPct": 0.79,
+    "avgPicks": 71.1
+   },
+   "test": {
+    "formations": 45,
+    "from": "2023-01-03",
+    "to": "2026-09-01",
+    "meanExcessPct": 1.306,
+    "avgPicks": 85.5
+   },
+   "testIntervalPct": [
+    0.201,
+    2.669
+   ],
+   "verdict": "通過，且超額大於來回成本（可能實用，需前瞻觀察）"
+  }
+ },
+ "seconds": 94
+}
