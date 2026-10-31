@@ -1,14 +1,11 @@
 {
- "at": "2026-10-31T18:08:02.125Z",
+ "at": "2026-10-31T18:45:18.287Z",
  "formations": 154,
- "saved": 1039,
- "errors": [
-  "revenue-otc|2023-07 HTTP 502",
-  "tpex stopping: time budget"
- ],
+ "saved": 193,
+ "errors": [],
  "progress": {
-  "done": 1039,
+  "done": 1232,
   "total": 1232,
-  "pct": 84.3
+  "pct": 100
  }
 }
