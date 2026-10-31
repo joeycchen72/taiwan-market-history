@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';import fs from 'node:fs';import os from 'node:os';import path from 'node:path';import zlib from 'node:zlib';
-import {loadPanel,buildIndex} from '../research/lib/data.mjs';
+import {loadPanel,buildIndex,isCommon} from '../research/lib/data.mjs';
+assert.equal(isCommon('2330'),true);assert.equal(isCommon('0050'),false);assert.equal(isCommon('0056'),false);assert.equal(isCommon('9105'),false);assert.equal(isCommon('2881A'),false);
 import {features,forward,judge,interval,monthly,SPEC} from '../research/factors-v1.mjs';
 import {runChecks} from '../research/data-checks.mjs';
 // --- total-return index from the reference price: an ex-dividend drop is not a loss

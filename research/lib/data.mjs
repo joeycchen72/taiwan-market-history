@@ -1,6 +1,7 @@
 // Load the daily files into compact per-code arrays and build a total-return index from the official reference price.
 import fs from 'node:fs';import path from 'node:path';import zlib from 'node:zlib';
-export const COMMON=/^\d{4}$/;export const isCommon=c=>COMMON.test(c)&&!c.startsWith('91');
+export const COMMON=/^\d{4}$/;// Common stocks only: 4-digit codes, excluding 91xx (TDR) and 00xx (4-digit ETFs such as 0050/0056; SPEC-v1 amendment 2026-10-31, before any result).
+export const isCommon=c=>COMMON.test(c)&&!c.startsWith('91')&&!c.startsWith('00');
 export function listFiles(root){const out=[];for(const m of ['twse','tpex']){const base=path.join(root,'data',m);if(!fs.existsSync(base))continue;for(const y of fs.readdirSync(base).sort())for(const f of fs.readdirSync(path.join(base,y)).sort())if(/^\d{8}\.csv\.gz$/.test(f))out.push({market:m,date:f.slice(0,4)+'-'+f.slice(4,6)+'-'+f.slice(6,8),file:path.join(base,y,f)});}return out;}
 const num=s=>s===''||s===undefined?NaN:Number(s);
 export function readDay(file){const lines=zlib.gunzipSync(fs.readFileSync(file)).toString().split('\n').filter(Boolean);const head=lines[0].split(',');const I=Object.fromEntries(head.map((h,i)=>[h,i]));
