@@ -1,0 +1,411 @@
+{
+ "spec": "factors-v2",
+ "dataRange": [
+  "2014-01-02",
+  "2026-10-30"
+ ],
+ "alpha": 0.0035714285714285718,
+ "results": {
+  "A2": {
+   "design": {
+    "formations": 59,
+    "meanPct": 1.3,
+    "avgPicks": 24.2
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.783,
+    "avgPicks": 35.8
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 1.451,
+    "avgPicks": 43.7
+   },
+   "testIntervalPct": [
+    -0.281,
+    3.214
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 199,
+    "noNextOpen": 16,
+    "dropped": 15
+   }
+  },
+  "A3": {
+   "design": {
+    "formations": 59,
+    "meanPct": 0.531,
+    "avgPicks": 63.4
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.654,
+    "avgPicks": 75
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.937,
+    "avgPicks": 86.4
+   },
+   "testIntervalPct": [
+    -0.809,
+    3.006
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 199,
+    "noNextOpen": 16,
+    "dropped": 25
+   }
+  },
+  "A4": {
+   "design": {
+    "formations": 1025,
+    "meanPct": 0.994,
+    "avgPicks": 4
+   },
+   "validation": {
+    "formations": 628,
+    "meanPct": 0.215,
+    "avgPicks": 5.1
+   },
+   "test": {
+    "formations": 829,
+    "meanPct": 0.207,
+    "avgPicks": 5.4
+   },
+   "testIntervalPct": [
+    -1.429,
+    2.296
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 3432,
+    "noNextOpen": 390,
+    "dropped": 36
+   }
+  },
+  "A5": {
+   "design": {
+    "formations": 862,
+    "meanPct": -0.163,
+    "avgPicks": 14.6
+   },
+   "validation": {
+    "formations": 664,
+    "meanPct": -0.847,
+    "avgPicks": 16.3
+   },
+   "test": {
+    "formations": 875,
+    "meanPct": -0.247,
+    "avgPicks": 20.1
+   },
+   "testIntervalPct": [
+    -0.871,
+    0.192
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 344,
+    "noNextOpen": 385,
+    "dropped": 5
+   }
+  },
+  "A6": {
+   "design": {
+    "formations": 58,
+    "meanPct": -0.406,
+    "avgPicks": 33.4
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": -0.046,
+    "avgPicks": 51.3
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.856,
+    "avgPicks": 71.2
+   },
+   "testIntervalPct": [
+    -0.486,
+    1.959
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 197,
+    "noNextOpen": 16,
+    "dropped": 16
+   }
+  },
+  "A9": {
+   "design": {
+    "formations": 930,
+    "meanPct": 0.402,
+    "avgPicks": 3
+   },
+   "validation": {
+    "formations": 638,
+    "meanPct": 2.607,
+    "avgPicks": 5.7
+   },
+   "test": {
+    "formations": 839,
+    "meanPct": 1.401,
+    "avgPicks": 7.8
+   },
+   "testIntervalPct": [
+    -0.309,
+    3.491
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 3314,
+    "noNextOpen": 378,
+    "dropped": 42
+   }
+  },
+  "A11": {
+   "design": {
+    "formations": 16,
+    "meanPct": -2.46,
+    "avgPicks": 48.1
+   },
+   "validation": {
+    "formations": 31,
+    "meanPct": -2.288,
+    "avgPicks": 71.5
+   },
+   "test": {
+    "formations": 18,
+    "meanPct": -3.33,
+    "avgPicks": 94.4
+   },
+   "testIntervalPct": null,
+   "verdict": "樣本不足",
+   "stats": {
+    "excluded": 83,
+    "noNextOpen": 12,
+    "dropped": 12
+   }
+  },
+  "A12": {
+   "design": {
+    "formations": 59,
+    "meanPct": 0.154,
+    "avgPicks": 52.8
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0,
+    "avgPicks": 71.2
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": -0.37,
+    "avgPicks": 85.6
+   },
+   "testIntervalPct": [
+    -1.729,
+    0.619
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 199,
+    "noNextOpen": 16,
+    "dropped": 19
+   }
+  },
+  "A13": {
+   "design": {
+    "formations": 1206,
+    "meanPct": -0.795,
+    "avgPicks": 21.4
+   },
+   "validation": {
+    "formations": 735,
+    "meanPct": -1.111,
+    "avgPicks": 32.4
+   },
+   "test": {
+    "formations": 902,
+    "meanPct": -0.399,
+    "avgPicks": 40.6
+   },
+   "testIntervalPct": [
+    -1.117,
+    0.327
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 3859,
+    "noNextOpen": 445,
+    "dropped": 286
+   }
+  },
+  "A14": {
+   "design": {
+    "formations": 1144,
+    "meanPct": 0.014,
+    "avgPicks": 6.6
+   },
+   "validation": {
+    "formations": 719,
+    "meanPct": -0.068,
+    "avgPicks": 15.4
+   },
+   "test": {
+    "formations": 912,
+    "meanPct": 0.146,
+    "avgPicks": 21.3
+   },
+   "testIntervalPct": [
+    -0.273,
+    0.598
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 403,
+    "noNextOpen": 433,
+    "dropped": 19
+   }
+  },
+  "A1": {
+   "design": {
+    "months": 58,
+    "meanPct": 0.524,
+    "beatShare": 0.517
+   },
+   "validation": {
+    "months": 36,
+    "meanPct": -1.293,
+    "beatShare": 0.361
+   },
+   "test": {
+    "months": 46,
+    "meanPct": 0.456,
+    "beatShare": 0.543
+   },
+   "testIntervalPct": [
+    -3.34,
+    3.935
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "rebalances": 141,
+    "firstTrade": "2015-02-03",
+    "finalNav": 540081,
+    "cagrPct": 15.44,
+    "bench": 20.21,
+    "maxDrawdownPct": -63.95,
+    "benchMaxDrawdownPct": -33.96
+   },
+   "lastPicks": {
+    "date": "2026-10-01",
+    "picks": [
+     "3311",
+     "1709",
+     "2033",
+     "3094",
+     "3293"
+    ]
+   }
+  },
+  "A15": {
+   "design": {
+    "months": 62,
+    "meanPct": -0.439,
+    "beatShare": 0.306
+   },
+   "validation": {
+    "months": 36,
+    "meanPct": -0.215,
+    "beatShare": 0.472
+   },
+   "test": {
+    "months": 46,
+    "meanPct": -0.282,
+    "beatShare": 0.261
+   },
+   "testIntervalPct": [
+    -0.953,
+    0.413
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "from": "2014-10-27",
+    "switches": 55,
+    "cagrPct": 16.22,
+    "bench": 20.51,
+    "maxDrawdownPct": -23.7,
+    "benchMaxDrawdownPct": -33.96
+   }
+  },
+  "A7": {
+   "design": {
+    "days": 1210,
+    "eventDays": 237,
+    "meanPct": -0.024
+   },
+   "validation": {
+    "days": 735,
+    "eventDays": 144,
+    "meanPct": 0.152
+   },
+   "test": {
+    "days": 922,
+    "eventDays": 183,
+    "meanPct": -0.052
+   },
+   "testIntervalPct": [
+    -0.61,
+    0.436
+   ],
+   "verdict": "未通過"
+  },
+  "A8": {
+   "design": {
+    "days": 1210,
+    "eventDays": 6,
+    "meanPct": 0.026
+   },
+   "validation": {
+    "days": 735,
+    "eventDays": 3,
+    "meanPct": 0.387
+   },
+   "test": {
+    "days": 921,
+    "eventDays": 5,
+    "meanPct": 0.737
+   },
+   "testIntervalPct": [
+    -0.171,
+    2.15
+   ],
+   "verdict": "未通過"
+  },
+  "A16": {
+   "from": "2015-02-02",
+   "to": "2026-10-30",
+   "dca": {
+    "invested": 1410000,
+    "final": 7112824,
+    "gainPct": 404.46,
+    "cashLeft": 66
+   },
+   "dip": {
+    "invested": 1410000,
+    "final": 6964479,
+    "gainPct": 393.93,
+    "cashLeft": 15223,
+    "dipBuys": 45
+   },
+   "note": "只有一條歷史路徑，不做統計判定；含手續費（最低20元）與滑價，未計賣出成本"
+  }
+ },
+ "seconds": 35
+}
