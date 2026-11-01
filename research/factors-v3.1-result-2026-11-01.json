@@ -1,0 +1,332 @@
+{
+ "spec": "factors-v3.1",
+ "basedOn": "factors-v3",
+ "decisionDay": 16,
+ "alpha": 0.004545454545454546,
+ "dataRange": [
+  "2014-01-02",
+  "2026-10-30"
+ ],
+ "results": {
+  "B1": {
+   "name": "營收年增最高",
+   "design": {
+    "formations": 60,
+    "meanPct": 0.419,
+    "avgPicks": 45.7
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 1.132,
+    "avgPicks": 66.4
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.825,
+    "avgPicks": 80.8
+   },
+   "testIntervalPct": [
+    -0.586,
+    2.673
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 177,
+    "noNextOpen": 12,
+    "dropped": 20,
+    "skippedNoData": 0
+   }
+  },
+  "B2": {
+   "name": "營收創12個月新高",
+   "design": {
+    "formations": 60,
+    "meanPct": 0.746,
+    "avgPicks": 67.6
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 1.894,
+    "avgPicks": 130.1
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 1.669,
+    "avgPicks": 134.4
+   },
+   "testIntervalPct": [
+    0.703,
+    2.863
+   ],
+   "verdict": "通過，且超額大於來回成本（可能實用，需前瞻觀察）",
+   "stats": {
+    "excluded": 177,
+    "noNextOpen": 12,
+    "dropped": 26,
+    "skippedNoData": 0
+   }
+  },
+  "B3": {
+   "name": "累計營收年增最高",
+   "design": {
+    "formations": 60,
+    "meanPct": -0.124,
+    "avgPicks": 45.8
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.261,
+    "avgPicks": 66.4
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.692,
+    "avgPicks": 80.9
+   },
+   "testIntervalPct": [
+    -1.281,
+    2.924
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 177,
+    "noNextOpen": 12,
+    "dropped": 21,
+    "skippedNoData": 0
+   }
+  },
+  "B4": {
+   "name": "外資加碼",
+   "design": {
+    "formations": 60,
+    "meanPct": 0.241,
+    "avgPicks": 52.6
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.457,
+    "avgPicks": 70.9
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 1.593,
+    "avgPicks": 85.4
+   },
+   "testIntervalPct": [
+    0.144,
+    3.663
+   ],
+   "verdict": "通過，且超額大於來回成本（可能實用，需前瞻觀察）",
+   "stats": {
+    "excluded": 206,
+    "noNextOpen": 19,
+    "dropped": 25,
+    "skippedNoData": 0
+   }
+  },
+  "B5": {
+   "name": "融資退場",
+   "design": {
+    "formations": 60,
+    "meanPct": -0.084,
+    "avgPicks": 49.7
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.222,
+    "avgPicks": 66.1
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.281,
+    "avgPicks": 80.8
+   },
+   "testIntervalPct": [
+    -0.648,
+    1.098
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 192,
+    "noNextOpen": 19,
+    "dropped": 17,
+    "skippedNoData": 0
+   }
+  },
+  "B6": {
+   "name": "低本益比",
+   "design": {
+    "formations": 60,
+    "meanPct": -0.43,
+    "avgPicks": 49
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.152,
+    "avgPicks": 67.6
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": -0.176,
+    "avgPicks": 80.5
+   },
+   "testIntervalPct": [
+    -1.419,
+    0.944
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 206,
+    "noNextOpen": 18,
+    "dropped": 22,
+    "skippedNoData": 0
+   }
+  },
+  "B7": {
+   "name": "高殖利率",
+   "design": {
+    "formations": 60,
+    "meanPct": 0.294,
+    "avgPicks": 52.7
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": -0.513,
+    "avgPicks": 71.2
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": -0.579,
+    "avgPicks": 85.7
+   },
+   "testIntervalPct": [
+    -2.616,
+    1.261
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 207,
+    "noNextOpen": 19,
+    "dropped": 26,
+    "skippedNoData": 0
+   }
+  },
+  "B8": {
+   "name": "低股價淨值比",
+   "design": {
+    "formations": 60,
+    "meanPct": -0.194,
+    "avgPicks": 52.8
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.468,
+    "avgPicks": 71.3
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.457,
+    "avgPicks": 85.9
+   },
+   "testIntervalPct": [
+    -0.543,
+    1.365
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 207,
+    "noNextOpen": 19,
+    "dropped": 6,
+    "skippedNoData": 0
+   }
+  },
+  "B9": {
+   "name": "小市值",
+   "design": {
+    "formations": 60,
+    "meanPct": -0.398,
+    "avgPicks": 52.9
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.882,
+    "avgPicks": 71.4
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.229,
+    "avgPicks": 85.8
+   },
+   "testIntervalPct": [
+    -1.148,
+    1.62
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 207,
+    "noNextOpen": 19,
+    "dropped": 11,
+    "skippedNoData": 0
+   }
+  },
+  "B10": {
+   "name": "營收成長＋便宜",
+   "design": {
+    "formations": 60,
+    "meanPct": 0.79,
+    "avgPicks": 30.6
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 0.799,
+    "avgPicks": 49.1
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 0.538,
+    "avgPicks": 59.6
+   },
+   "testIntervalPct": [
+    -0.432,
+    1.642
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 176,
+    "noNextOpen": 11,
+    "dropped": 16,
+    "skippedNoData": 0
+   }
+  },
+  "B11": {
+   "name": "強勢產業",
+   "design": {
+    "formations": 60,
+    "meanPct": -0.357,
+    "avgPicks": 57.8
+   },
+   "validation": {
+    "formations": 36,
+    "meanPct": 1.135,
+    "avgPicks": 75.9
+   },
+   "test": {
+    "formations": 45,
+    "meanPct": 1.477,
+    "avgPicks": 121.6
+   },
+   "testIntervalPct": [
+    -0.016,
+    3.572
+   ],
+   "verdict": "未通過",
+   "stats": {
+    "excluded": 175,
+    "noNextOpen": 12,
+    "dropped": 26,
+    "skippedNoData": 0
+   }
+  }
+ },
+ "seconds": 22
+}

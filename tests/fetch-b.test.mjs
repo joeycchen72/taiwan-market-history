@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {parseTwseQfii,parseTpexQfii,parseTwseMargin,parseTpexMargin,parseTwsePe,parseTpexPe,parseRevenue,formationDates} from '../scripts/fetch-b.mjs';
+import {decisionDate,parseTwseQfii,parseTpexQfii,parseTwseMargin,parseTpexMargin,parseTwsePe,parseTpexPe,parseRevenue,formationDates} from '../scripts/fetch-b.mjs';
 assert.deepEqual(parseTwseQfii({stat:'OK',data:[["1101","台泥","TW0001101004","3,692,175,869","2,000,000","1,192,175,869",54.2,32.28,"100.00","100.00","",0]]}),[['1101',3692175869,1192175869,32.28]]);
 assert.deepEqual(parseTpexQfii({tables:[{data:[["1","8406","F-金可","92,623,472","8,436,454","84,187,018","9.11%","90.89%","100%",""]]}]}),[['8406',92623472,84187018,90.89]]);
 assert.deepEqual(parseTwseMargin({stat:'OK',tables:[{title:'信用交易統計',data:[]},{title:'104年03月02日 融資融券彙總 (全部)',data:[["0050","元大台灣50","132","43","0","2,012","2,101","264,375","73","11","0","1,581","1,519","264,375","11"," "]]}]}),[['0050',2101,1519]]);
@@ -10,4 +10,5 @@ const html="<th>產業別：水泥工業</th><tr><td align=center>1101</td><td a
 assert.deepEqual(parseRevenue(html),[['1101','水泥工業',4823318,8921719,6087866,13745037,15889557],['1201','食品工業',1000,900,800,2000,1600]]);
 const prog={markets:{twse:{'2026-09-01':'ok:1','2026-09-10':'ok:1','2026-09-11':'closed','2026-09-14':'ok:1','2026-09-15':'ok:1','2026-10-12':'ok:1','2026-10-13':'ok:1'}}};
 assert.deepEqual(formationDates(prog,'2026-01'),[{month:'2026-09',date:'2026-09-14'},{month:'2026-10',date:'2026-10-12'}]);
+assert.equal(decisionDate(prog,'2026-09'),null);assert.equal(decisionDate({markets:{twse:{'2026-09-15':'ok:1','2026-09-16':'closed','2026-09-17':'ok:1'}}},'2026-09'),'2026-09-17');
 console.log('fetch-b parsers (TWSE/TPEx foreign holdings, margin, P/E; MOPS revenue with industry) and formation dates (first trading day on/after the 11th) passed');
