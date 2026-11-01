@@ -23,13 +23,13 @@ export function loadB(root){const base=path.join(root,'data','b'),get=(kind,key)
  const cache=new Map(),g=(kind,key)=>{const k=kind+'|'+key;if(!cache.has(k))cache.set(k,get(kind,key));return cache.get(k);};return g;}
 const monthAdd=(m,d)=>{const [y,mo]=m.split('-').map(Number);return new Date(Date.UTC(y,mo-1+d,1)).toISOString().slice(0,7);};
 // ---------- engine ----------
-export function run(panel,B,fds){prepare(panel);const {dates,di,series}=panel,D=dates.length,codes=[...series.keys()].filter(isCommon).sort(),out={},stats={};
- const tests=['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'];for(const k of tests){out[k]=[];stats[k]={excluded:0,noNextOpen:0,dropped:0,skippedNoData:0};}
+// Groups for formation i, using only data public by the close of fds[i].date (shared by run() and forward-b.mjs).
+export function groupsAt(panel,B,fds,i,codes){const {di,series}=panel,{month,date}=fds[i],t=di.get(date);if(t===undefined||t<SPEC3.warmup)return null;
+ const prevF=i>0?fds[i-1].date:null,rm=monthAdd(month,-1);
  const topShare=(xs,share,asc=false)=>{const v=xs.filter(x=>Number.isFinite(x.v)).sort((a,b)=>(asc?a.v-b.v:b.v-a.v)||a.c.localeCompare(b.c));return new Set(v.slice(0,Math.max(1,Math.floor(v.length*share))).map(x=>x.c));};
- for(let i=0;i<fds.length;i++){const {month,date}=fds[i],t=di.get(date);if(t===undefined||t<SPEC3.warmup||t+SPEC3.hold>=D)continue;
-  const prevF=i>0?fds[i-1].date:null,rm=monthAdd(month,-1);
+
   const rev=B('revenue',rm),qf=B('qfii',date),qf0=prevF?B('qfii',prevF):null,mg=B('margin',date),mg0=prevF?B('margin',prevF):null,pe=B('pe',date);
-  const pool=codes.filter(c=>eligible(series.get(c),t));if(pool.length<50)continue;
+  const pool=codes.filter(c=>eligible(series.get(c),t));if(pool.length<50)return {t,defs:null};
   const has=(m,c)=>!!m&&m.has(c);
   const defs={
    B1:()=>{if(!rev)return null;const p=pool.filter(c=>has(rev,c)&&rev.get(c).last_year_rev>0);return {p,g:topShare(p.map(c=>({c,v:rev.get(c).rev/rev.get(c).last_year_rev-1})),0.1)};},
@@ -44,6 +44,13 @@ export function run(panel,B,fds){prepare(panel);const {dates,di,series}=panel,D=
    B10:()=>{if(!rev||!pe)return null;const p=pool.filter(c=>has(rev,c)&&rev.get(c).last_year_rev>0&&has(pe,c)&&pe.get(c).pe>0);const a=topShare(p.map(c=>({c,v:rev.get(c).rev/rev.get(c).last_year_rev-1})),0.3),b=topShare(p.map(c=>({c,v:pe.get(c).pe})),0.3,true);return {p,g:new Set(p.filter(c=>a.has(c)&&b.has(c)))};},
    B11:()=>{if(!rev||t<63)return null;const p=pool.filter(c=>has(rev,c)&&series.get(c).tri[t-63]>0&&series.get(c).tri[t]>0);const by=new Map();for(const c of p){const ind=rev.get(c).industry;(by.get(ind)||by.set(ind,[]).get(ind)).push(series.get(c).tri[t]/series.get(c).tri[t-63]-1);}
     const best=[...by.entries()].filter(([,v])=>v.length>=5).map(([k,v])=>({k,r:mean(v)})).sort((a,b)=>b.r-a.r||a.k.localeCompare(b.k)).slice(0,3).map(x=>x.k);return {p,g:new Set(p.filter(c=>best.includes(rev.get(c).industry))),industries:best};}};
+  return {t,defs};}
+
+export function run(panel,B,fds){prepare(panel);const {dates,di,series}=panel,D=dates.length,codes=[...series.keys()].filter(isCommon).sort(),out={},stats={};
+ const tests=['B1','B2','B3','B4','B5','B6','B7','B8','B9','B10','B11'];for(const k of tests){out[k]=[];stats[k]={excluded:0,noNextOpen:0,dropped:0,skippedNoData:0};}
+ const topShare=(xs,share,asc=false)=>{const v=xs.filter(x=>Number.isFinite(x.v)).sort((a,b)=>(asc?a.v-b.v:b.v-a.v)||a.c.localeCompare(b.c));return new Set(v.slice(0,Math.max(1,Math.floor(v.length*share))).map(x=>x.c));};
+ for(let i=0;i<fds.length;i++){const {date}=fds[i],t0=di.get(date);if(t0===undefined||t0<SPEC3.warmup||t0+SPEC3.hold>=D)continue;
+  const G=groupsAt(panel,B,fds,i,codes);if(!G||!G.defs)continue;const {t,defs}=G;
   for(const k of tests){const d=defs[k]();if(!d||d.p.length<50||!d.g.size){stats[k].skippedNoData++;continue;}
    const a=[],b=[];for(const c of d.p){const fw=forward(series.get(c),t,SPEC3.hold,D),g=d.g.has(c);if(!fw){stats[k].noNextOpen++;if(g)stats[k].dropped++;continue;}if(fw.excluded){stats[k].excluded++;if(g)stats[k].dropped++;continue;}(g?a:b).push(fw.r);}
    if(!a.length||!b.length)continue;out[k].push({date,excess:mean(a)-mean(b),n:a.length,selected:d.g.size,universe:d.p.length,...(d.industries?{industries:d.industries}:{})});}}
