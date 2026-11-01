@@ -24,7 +24,8 @@ export function loadB(root){const base=path.join(root,'data','b'),get=(kind,key)
 const monthAdd=(m,d)=>{const [y,mo]=m.split('-').map(Number);return new Date(Date.UTC(y,mo-1+d,1)).toISOString().slice(0,7);};
 // ---------- engine ----------
 // Groups for formation i, using only data public by the close of fds[i].date (shared by run() and forward-b.mjs).
-export function groupsAt(panel,B,fds,i,codes){const {di,series}=panel,{month,date}=fds[i],t=di.get(date);if(t===undefined||t<SPEC3.warmup)return null;
+// decisionDate (v3.1): decide later than the B-data sample date, using prices up to that day; B data stays the sample (<= decision).
+export function groupsAt(panel,B,fds,i,codes,decisionDate=null){const {di,series}=panel,{month,date}=fds[i],t=di.get(decisionDate||date);if(t===undefined||t<SPEC3.warmup||(decisionDate&&decisionDate<date))return null;
  const prevF=i>0?fds[i-1].date:null,rm=monthAdd(month,-1);
  const topShare=(xs,share,asc=false)=>{const v=xs.filter(x=>Number.isFinite(x.v)).sort((a,b)=>(asc?a.v-b.v:b.v-a.v)||a.c.localeCompare(b.c));return new Set(v.slice(0,Math.max(1,Math.floor(v.length*share))).map(x=>x.c));};
 

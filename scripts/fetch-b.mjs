@@ -27,6 +27,8 @@ export const HEAD={qfii:'code,issued,foreign_held,foreign_pct',margin:'code,marg
 // ---------- formation dates from the downloaded daily status ----------
 export function formationDates(progress,start=START){const tw=Object.entries(progress.markets.twse).filter(([,v])=>String(v).startsWith('ok')).map(([d])=>d).sort(),out=new Map();
  for(const d of tw){const m=d.slice(0,7);if(m<start)continue;if(+d.slice(8)>=11&&!out.has(m))out.set(m,d);}return [...out.entries()].map(([month,date])=>({month,date}));}
+export const REFETCH_FROM='2026-11';
+export function decisionDate(progress,month,day=16){return Object.entries(progress.markets.twse).filter(([d,v])=>d.slice(0,7)===month&&+d.slice(8)>=day&&String(v).startsWith('ok')).map(([d])=>d).sort()[0]||null;}
 const prevMonth=m=>{const [y,mo]=m.split('-').map(Number);const d=new Date(Date.UTC(y,mo-2,1));return d.toISOString().slice(0,7);};
 async function main(){fs.mkdirSync(dir,{recursive:true});const daily=JSON.parse(fs.readFileSync(path.join(root,'data','progress.json'),'utf8')),prog=fs.existsSync(progFile)?JSON.parse(fs.readFileSync(progFile,'utf8')):{done:{},failures:{}};
  const fds=formationDates(daily).reverse(),errors=[];let saved=0;
@@ -40,7 +42,10 @@ async function main(){fs.mkdirSync(dir,{recursive:true});const daily=JSON.parse(
   jobs.tpex.push([`margin-tpex|${date}`,()=>getJson(`https://www.tpex.org.tw/www/zh-tw/margin/balance?date=${slash(date)}&response=json`).then(parseTpexMargin),'margin-tpex',date]);
   jobs.tpex.push([`pe-tpex|${date}`,()=>getJson(`https://www.tpex.org.tw/www/zh-tw/afterTrading/peQryDate?date=${slash(date)}&response=json`).then(parseTpexPe),'pe-tpex',date]);
   const rm=prevMonth(month),[y,mo]=rm.split('-').map(Number);
-  for(const mk of ['sii','otc'])jobs.mops.push([`revenue-${mk}|${rm}`,()=>getBig5(`https://mopsov.twse.com.tw/nas/t21/${mk}/t21sc03_${y-1911}_${mo}_0.html`).then(parseRevenue),'revenue-'+mk,rm]);}
+  for(const mk of ['sii','otc'])jobs.mops.push([`revenue-${mk}|${rm}`,()=>getBig5(`https://mopsov.twse.com.tw/nas/t21/${mk}/t21sc03_${y-1911}_${mo}_0.html`).then(parseRevenue),'revenue-'+mk,rm]);
+  // v3.1 (Issue #20): from 2026-11, re-fetch last month's revenue on the decision date (first trading day on/after the 16th),
+  // after every known filing deadline (insurers / financial holding companies: 15th), overwriting the earlier copy.
+  const d16=decisionDate(daily,month);if(month>=REFETCH_FROM&&d16)for(const mk of ['sii','otc'])jobs.mops.unshift([`revenue16-${mk}|${rm}`,()=>getBig5(`https://mopsov.twse.com.tw/nas/t21/${mk}/t21sc03_${y-1911}_${mo}_0.html`).then(parseRevenue),'revenue-'+mk,rm]);}
  async function worker(host){let consecutive=0;for(const [key,fn,kind,k] of jobs[host]){if(prog.done[key])continue;if(Date.now()-T0>BUDGET){errors.push(host+' stopping: time budget');return;}
   try{const rows=await fn();if(!rows||rows.length<(kind.startsWith('revenue')?300:200))throw Error('too few rows ('+(rows?rows.length:0)+')');save(kind,k,rows);prog.done[key]='ok:'+rows.length;delete prog.failures[key];saved++;consecutive=0;}
   catch(e){prog.failures[key]=(prog.failures[key]||0)+1;errors.push(key+' '+e.message);if(prog.failures[key]>=3&&!TRANSIENT.test(e.message))prog.done[key]='failed:'+e.message.slice(0,80);consecutive++;if(consecutive>=5){errors.push(host+' stopping: 5 consecutive failures');return;}}
