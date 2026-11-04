@@ -1,18 +1,15 @@
 {
- "at": "2026-11-04T23:04:27.357Z",
+ "at": "2026-11-04T23:58:08.994Z",
  "range": [
   "2014-01-01",
   "2026-11-04"
  ],
  "requests": 2,
- "saved": 0,
+ "saved": 2,
  "closed": 0,
- "errors": [
-  "twseExright|2026-11 HTTP 307",
-  "twseExright|2026-10 HTTP 307"
- ],
+ "errors": [],
  "progress": {
-  "done": 6855,
+  "done": 6857,
   "total": 6857,
   "pct": 100
  }
