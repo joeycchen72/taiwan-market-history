@@ -1,13 +1,13 @@
 {
  "version": "forward-h5-v1",
- "updatedThrough": "2026-11-05",
+ "updatedThrough": "2026-11-06",
  "missedMonths": [],
  "months": {
   "2026-11-02": {
    "picks": 87,
    "sealedAt": "2026-11-02T16:22:36.983Z",
    "status": "pending",
-   "maturesAfterTradingDays": 18
+   "maturesAfterTradingDays": 17
   }
  }
 }

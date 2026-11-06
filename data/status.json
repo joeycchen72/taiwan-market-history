@@ -1,16 +1,18 @@
 {
- "at": "2026-11-06T15:07:35.675Z",
+ "at": "2026-11-06T16:08:45.731Z",
  "range": [
   "2014-01-01",
-  "2026-11-05"
+  "2026-11-06"
  ],
- "requests": 2,
- "saved": 2,
+ "requests": 4,
+ "saved": 3,
  "closed": 0,
- "errors": [],
+ "errors": [
+  "tpex|2026-11-06 terminated"
+ ],
  "progress": {
-  "done": 6859,
-  "total": 6859,
+  "done": 6860,
+  "total": 6861,
   "pct": 100
  }
 }
