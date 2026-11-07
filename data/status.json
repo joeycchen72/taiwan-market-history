@@ -1,13 +1,14 @@
 {
- "at": "2026-11-07T04:11:59.549Z",
+ "at": "2026-11-07T05:11:32.755Z",
  "range": [
   "2014-01-01",
   "2026-11-06"
  ],
  "requests": 2,
- "saved": 1,
+ "saved": 0,
  "closed": 0,
  "errors": [
+  "twseExright|2026-11 The operation was aborted due to timeout",
   "twseExright|2026-10 The operation was aborted due to timeout"
  ],
  "progress": {
