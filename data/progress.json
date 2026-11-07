@@ -6866,13 +6866,11 @@
    "2014-02": "ok:6",
    "2014-01": "ok:1",
    "2026-09": "ok:109",
-   "2026-10": "failed:The operation was aborted due to timeout"
+   "2026-11": "ok:11",
+   "2026-10": "ok:67"
   }
  },
- "failures": {
-  "twseExright|2026-10": 3,
-  "twseExright|2026-11": 1
- },
+ "failures": {},
  "migrations": [
   {
    "at": "2026-10-30T07:24:27.981Z",
