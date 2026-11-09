@@ -1,0 +1,7 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {SPEC,dayType,qualifies,delta} from '../research/factors-v5.mjs';
+const mk=(n,f)=>{const s={chg:new Float32Array(n).fill(0),x:new Uint8Array(n),c:new Float32Array(n).fill(20),l:new Float32Array(n).fill(19.8),ref:new Float32Array(n).fill(20),val:new Float32Array(n).fill(5e7),tri:new Float64Array(n).fill(1),unk:new Uint8Array(n)};f&&f(s);return s;};
+test('day types use only 0050 day t',()=>{const m=mk(10,s=>{s.l[3]=18.9;s.l[4]=19.5;});assert.equal(dayType(m,3),'crash');assert.equal(dayType(m,4),null);assert.equal(dayType(m,5),'calm');});
+test('stock qualifies only on a >=7% intraday drop with history and liquidity',()=>{const s=mk(300,s=>{s.l[290]=18.5;s.l[291]=18.7;});assert.equal(qualifies(s,290),true);assert.equal(qualifies(s,291),false);const young=mk(300,s=>{s.l[100]=18;});assert.equal(qualifies(young,100),false);const thin=mk(300,s=>{s.l[290]=18;s.val.fill(1e6);});assert.equal(qualifies(thin,290),false);});
+test('qualifies ignores data after t',()=>{const s=mk(300,s=>{s.l[290]=18.5;});const a=qualifies(s,290);s.c[295]=1;s.val[295]=0;assert.equal(qualifies(s,290),a);});
+test('delta skips unknown or unmatured windows',()=>{const s=mk(30,s=>{s.tri[25]=1.1;s.unk[12]=1;});assert.ok(Math.abs(delta(s,20,5).d-0.1)<1e-9);assert.equal(delta(s,10,5).skip,'unknown');assert.equal(delta(s,28,5).skip,'unmatured');});
