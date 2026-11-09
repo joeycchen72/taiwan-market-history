@@ -9,7 +9,9 @@ on:
         description: 'Earliest date to fetch (YYYY-MM-DD)'
         default: '2014-01-01'
   schedule:
-    - cron: '23 * * * *'
+    # Once per weekday after the close (16:43 Taipei); also runs the B-class fetch below. Reduced on 2026-11-10
+    # after the account review: the ten-year backfill is complete, so one daily run is enough.
+    - cron: '43 8 * * 1-5'
 permissions:
   contents: write
 concurrency:
@@ -32,6 +34,12 @@ jobs:
       - name: Forward H5 list (seal on a month's first trading day before the next open; evaluate matured lists)
         continue-on-error: true
         run: node research/forward-h5.mjs
+      - name: B-class data on formation dates (was the separate hourly b-backfill job)
+        continue-on-error: true
+        run: node tests/fetch-b.test.mjs && node scripts/fetch-b.mjs
+      - name: Forward B2/B4 lists (seal on the formation date before the next open; evaluate matured lists)
+        continue-on-error: true
+        run: node research/forward-b.mjs
       - name: Commit data and progress
         if: always()
         run: |

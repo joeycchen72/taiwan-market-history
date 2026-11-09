@@ -1,7 +1,6 @@
 name: b-backfill
 on:
-  schedule:
-    - cron: '43 * * * *'
+  # No schedule since 2026-11-10: the daily backfill job runs the same steps. Manual runs only.
   workflow_dispatch:
 permissions: { contents: write }
 concurrency: { group: b-backfill, cancel-in-progress: false }
