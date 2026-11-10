@@ -1,16 +1,18 @@
 {
- "at": "2026-11-07T11:56:38.678Z",
+ "at": "2026-11-10T09:31:25.371Z",
  "range": [
   "2014-01-01",
-  "2026-11-06"
+  "2026-11-09"
  ],
- "requests": 2,
- "saved": 2,
+ "requests": 4,
+ "saved": 3,
  "closed": 0,
- "errors": [],
+ "errors": [
+  "tpex|2026-11-09 The operation was aborted due to timeout"
+ ],
  "progress": {
-  "done": 6861,
-  "total": 6861,
+  "done": 6862,
+  "total": 6863,
   "pct": 100
  }
 }
