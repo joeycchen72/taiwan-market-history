@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {keys,pick} from '../research/factors-v6.mjs';
+test('keys use data up to t only',()=>{const n=300,s={tri:Float64Array.from({length:n},(_,i)=>100+i),cv:new Float64Array(n+1)};for(let i=0;i<n;i++)s.cv[i+1]=s.cv[i]+1e6;const a=keys(s,280,{rev:120,last_year_rev:100});s.tri[290]=1e9;s.cv.fill(0,282);assert.deepEqual(keys(s,280,{rev:120,last_year_rev:100}),a);assert.equal(a.P1,1);assert.ok(Math.abs(a.P2-0.2)<1e-12);assert.equal(a.P3,1e6);});
+test('pick takes the top n, ties by code',()=>{assert.deepEqual(pick([{c:'2',P1:1},{c:'1',P1:1},{c:'3',P1:.5},{c:'4',P1:NaN}],'P1',2),['1','2']);});
