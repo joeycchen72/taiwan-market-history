@@ -5,7 +5,10 @@ import {parseTwse,parseTpex,parseTwt49u,urls,toCsv,ymd,keepEquity,EQUITY,COLUMNS
 const root=path.join(path.dirname(fileURLToPath(import.meta.url)),'..'),data=path.join(root,'data'),progressFile=path.join(data,'progress.json');
 const T0=Date.now(),EX_MONTHS=Number(process.env.EX_MONTHS||60),BUDGET=Number(process.env.BUDGET_MS||50*60000),overBudget=()=>Date.now()-T0>BUDGET,MAX=Number(process.env.MAX_REQUESTS||750),DELAY=Number(process.env.DELAY_MS||4000),HOST_DELAY={twse:DELAY,tpex:Number(process.env.TPEX_DELAY_MS||10000)},TRANSIENT=/HTTP (403|429|5\d\d)|terminated|timeout|aborted|fetch failed|ECONNRESET|blocked/i,START=process.env.START||'2014-01-01';
 const taipeiDay=t=>new Date(t+28800000).toISOString().slice(0,10);
-const END=process.env.END||taipeiDay(Date.now()-86400000);
+// Include today once the official files are normally out (16:00 Taipei), so a formation date can be sealed
+// the same evening instead of after the next open. An empty answer for today is not recorded as 'closed'.
+const TODAY=taipeiDay(Date.now()),AFTER_CLOSE=new Date(Date.now()+28800000).getUTCHours()>=16;
+const END=process.env.END||(AFTER_CLOSE?TODAY:taipeiDay(Date.now()-86400000));
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 export function weekdays(start,end){const out=[];for(let t=Date.parse(end+'T00:00:00Z');t>=Date.parse(start+'T00:00:00Z');t-=86400000){const d=new Date(t),w=d.getUTCDay();if(w>0&&w<6)out.push(d.toISOString().slice(0,10));}return out;}
 async function get(url){const r=await fetch(url,{signal:AbortSignal.timeout(30000),headers:{'Accept':'application/json','User-Agent':'Mozilla/5.0 (research backfill; github.com/joeycchen72/taiwan-market-history)'}});if(!r.ok)throw Error('HTTP '+r.status);const text=await r.text();if(/^\s*</.test(text))throw Error('HTML instead of JSON (possibly blocked)');return JSON.parse(text);}
@@ -35,6 +38,7 @@ async function main(){
   if(progress.markets[m][date])continue;if(n>=MAX)return;if(overBudget()){errors.push(m+' stopping: time budget reached; progress saved');return;}n++;used++;
   try{const j=await get(urls[m](date)),r=parsers[m](j,date);
    if(r.status==='ok'){r.rows=keepEquity(r.rows);if(r.rows.length<50)throw Error('too few rows ('+r.rows.length+')');const dir=path.join(data,m,date.slice(0,4));fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,ymd(date)+'.csv.gz'),zlib.gzipSync(toCsv(r.rows),{level:9}));progress.markets[m][date]='ok:'+r.rows.length;saved++;}
+   else if(date===TODAY){errors.push(m+'|'+date+' not published yet; will retry');}
    else{progress.markets[m][date]='closed';closed++;}
    delete progress.failures[m+'|'+date];consecutive=0;
   }catch(e){const k=m+'|'+date;progress.failures[k]=(progress.failures[k]||0)+1;errors.push(k+' '+e.message);if(progress.failures[k]>=3&&!TRANSIENT.test(e.message))progress.markets[m][date]='failed:'+e.message.slice(0,80);consecutive++;if(consecutive>=5){errors.push(m+' stopping: 5 consecutive failures (source may be limiting requests)');return;}}
