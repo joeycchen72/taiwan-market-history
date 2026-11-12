@@ -9,9 +9,10 @@ on:
         description: 'Earliest date to fetch (YYYY-MM-DD)'
         default: '2014-01-01'
   schedule:
-    # Once per weekday after the close (16:43 Taipei); also runs the B-class fetch below. Reduced on 2026-11-10
-    # after the account review: the ten-year backfill is complete, so one daily run is enough.
-    - cron: '43 8 * * 1-5'
+    # Once per weekday morning (06:43 Taipei, Mon-Fri = 22:43 UTC Sun-Thu); also runs the B-class fetch below.
+    # Moved from 16:43 on 2026-11-12 at the owner's request: the previous day's official files are complete by then,
+    # and even with GitHub's ~1 h start delay the lists are sealed before the 09:00 deadline. Still one run per weekday.
+    - cron: '43 22 * * 0-4'
 permissions:
   contents: write
 concurrency:
@@ -40,6 +41,9 @@ jobs:
       - name: Forward B2/B4 lists (seal on the formation date before the next open; evaluate matured lists)
         continue-on-error: true
         run: node research/forward-b.mjs
+      - name: P1 experimental account (failed the ten-year test; watched only)
+        continue-on-error: true
+        run: node tests/p1-account.test.mjs && node research/p1-account.mjs
       - name: Commit data and progress
         if: always()
         run: |
