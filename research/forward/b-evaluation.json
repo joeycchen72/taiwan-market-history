@@ -1,7 +1,9 @@
 {
  "version": "forward-b-v1.1",
- "updatedThrough": "2026-11-10",
- "missed": [],
+ "updatedThrough": "2026-11-12",
+ "missed": [
+  "B4 2026-11"
+ ],
  "months": {
   "B2": {},
   "B4": {}

@@ -1231,7 +1231,16 @@
   "pe-tpex|2014-02-11": "ok:657",
   "qfii-tpex|2014-01-13": "ok:659",
   "margin-tpex|2014-01-13": "ok:556",
-  "pe-tpex|2014-01-13": "ok:657"
+  "pe-tpex|2014-01-13": "ok:657",
+  "qfii-twse|2026-11-11": "ok:1373",
+  "margin-twse|2026-11-11": "ok:1309",
+  "revenue-sii|2026-10": "ok:983",
+  "pe-twse|2026-11-11": "ok:1087",
+  "revenue-otc|2026-10": "ok:867",
+  "margin-tpex|2026-11-11": "ok:920",
+  "pe-tpex|2026-11-11": "ok:894"
  },
- "failures": {}
+ "failures": {
+  "qfii-tpex|2026-11-11": 1
+ }
 }
