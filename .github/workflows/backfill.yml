@@ -40,6 +40,9 @@ jobs:
       - name: Forward B2/B4 lists (seal on the formation date before the next open; evaluate matured lists)
         continue-on-error: true
         run: node research/forward-b.mjs
+      - name: P1 experimental account (failed the ten-year test; watched only)
+        continue-on-error: true
+        run: node tests/p1-account.test.mjs && node research/p1-account.mjs
       - name: Commit data and progress
         if: always()
         run: |
