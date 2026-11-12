@@ -1,13 +1,11 @@
 {
- "at": "2026-11-12T09:36:58.555Z",
+ "at": "2026-11-12T23:23:06.346Z",
  "formations": 155,
- "saved": 7,
- "errors": [
-  "qfii-tpex|2026-11-11 HTTP 525"
- ],
+ "saved": 1,
+ "errors": [],
  "progress": {
-  "done": 1239,
+  "done": 1240,
   "total": 1240,
-  "pct": 99.9
+  "pct": 100
  }
 }

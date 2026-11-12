@@ -1238,9 +1238,8 @@
   "pe-twse|2026-11-11": "ok:1087",
   "revenue-otc|2026-10": "ok:867",
   "margin-tpex|2026-11-11": "ok:920",
-  "pe-tpex|2026-11-11": "ok:894"
+  "pe-tpex|2026-11-11": "ok:894",
+  "qfii-tpex|2026-11-11": "ok:898"
  },
- "failures": {
-  "qfii-tpex|2026-11-11": 1
- }
+ "failures": {}
 }
