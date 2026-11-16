@@ -1,0 +1,25 @@
+{
+ "version": "p1-account-v1",
+ "label": "未通過十年驗證，觀察中",
+ "validated": false,
+ "rule": "每月營收名單（B2）中，收盤最接近 52 週高點的 6 檔；隔日開盤等額買進，持有 21 個交易日後收盤賣出",
+ "capital": 100000,
+ "costs": {
+  "buyPct": 0.2425,
+  "sellPct": 0.5425
+ },
+ "updatedThrough": "2026-11-16",
+ "start": null,
+ "nav": null,
+ "bench": null,
+ "periods": [
+  {
+   "month": "2026-11",
+   "formationDate": "2026-11-16",
+   "delayed": false,
+   "picks": [],
+   "status": "waiting for entry"
+  }
+ ],
+ "marks": []
+}

@@ -1239,7 +1239,9 @@
   "revenue-otc|2026-10": "ok:867",
   "margin-tpex|2026-11-11": "ok:920",
   "pe-tpex|2026-11-11": "ok:894",
-  "qfii-tpex|2026-11-11": "ok:898"
+  "qfii-tpex|2026-11-11": "ok:898",
+  "revenue16-otc|2026-10": "ok:868",
+  "revenue16-sii|2026-10": "ok:997"
  },
  "failures": {}
 }
