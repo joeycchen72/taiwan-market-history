@@ -1,6 +1,6 @@
 {
  "version": "forward-b-v1.1",
- "updatedThrough": "2026-11-16",
+ "updatedThrough": "2026-11-17",
  "missed": [
   "B4 2026-11"
  ],
@@ -10,7 +10,7 @@
     "picks": 190,
     "sealedAt": "2026-11-16T23:26:18.372Z",
     "status": "pending",
-    "maturesAfterTradingDays": 21
+    "maturesAfterTradingDays": 20
    }
   },
   "B4": {},
@@ -19,7 +19,7 @@
     "picks": 6,
     "sealedAt": "2026-11-16T23:26:18.372Z",
     "status": "pending",
-    "maturesAfterTradingDays": 21
+    "maturesAfterTradingDays": 20
    }
   }
  }
