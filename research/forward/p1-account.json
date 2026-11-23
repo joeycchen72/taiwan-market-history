@@ -8,10 +8,10 @@
   "buyPct": 0.2425,
   "sellPct": 0.5425
  },
- "updatedThrough": "2026-11-20",
+ "updatedThrough": "2026-11-23",
  "start": "2026-11-17",
- "nav": 77864,
- "bench": 89102,
+ "nav": 75708,
+ "bench": 91792,
  "periods": [
   {
    "month": "2026-11",
@@ -21,17 +21,17 @@
     {
      "code": "6140",
      "entryPrice": 36.85,
-     "returnPct": -19.67
+     "returnPct": -25.37
     },
     {
      "code": "6708",
      "entryPrice": 87.3,
-     "returnPct": -29.32
+     "returnPct": -22.34
     },
     {
      "code": "6751",
      "entryPrice": 105,
-     "returnPct": -29.05
+     "returnPct": -32.38
     },
     {
      "code": "2607",
@@ -41,20 +41,20 @@
     {
      "code": "6108",
      "entryPrice": 39.7,
-     "returnPct": -13.22
+     "returnPct": -21.79
     },
     {
      "code": "6112",
      "entryPrice": 57.3,
-     "returnPct": -29.49
+     "returnPct": -31.85
     }
    ],
    "entryDate": "2026-11-17",
    "missing": [],
    "status": "holding",
    "exitDue": null,
-   "tradingDaysLeft": 17,
-   "navAfter": 77864
+   "tradingDaysLeft": 16,
+   "navAfter": 75708
   }
  ],
  "marks": [
@@ -77,6 +77,11 @@
    "date": "2026-11-20",
    "nav": 77864,
    "bench": 89102
+  },
+  {
+   "date": "2026-11-23",
+   "nav": 75708,
+   "bench": 91792
   }
  ],
  "note": "持有中的期別以最新收盤估值，尚未扣賣出成本；0050 同日開盤買進持有、未扣賣出成本"
